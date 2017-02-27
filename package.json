@@ -1,0 +1,25 @@
+{
+  "name": "gauge-animated",
+  "version": "0.1.0",
+  "description": "A physically animated Gauge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whitelizard/gauge-animated.git"
+  },
+  "keywords": [
+    "gauge",
+    "animation",
+    "svg",
+    "canvas"
+  ],
+  "author": "Esbjörn Blomquist",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/whitelizard/gauge-animated/issues"
+  },
+  "homepage": "https://github.com/whitelizard/gauge-animated#readme"
+}
