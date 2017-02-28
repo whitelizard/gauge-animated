@@ -1,3 +1,5 @@
+import VelocityModel from 'velocitymodel/lib/velocitymodel';
+import ModelAnimator from 'velocitymodel/lib/vm-animator';
 
 const radPerDeg = Math.PI/180;
 const degPerRad = 180/Math.PI;

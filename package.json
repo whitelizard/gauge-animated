@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/whitelizard/gauge-animated/issues"
   },
-  "homepage": "https://github.com/whitelizard/gauge-animated#readme"
+  "homepage": "https://github.com/whitelizard/gauge-animated#readme",
+  "dependencies": {
+    "velocitymodel": "^0.1.7"
+  }
 }
