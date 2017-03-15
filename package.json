@@ -1,6 +1,6 @@
 {
   "name": "gauge-animated",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A physically animated Gauge",
   "main": "index.js",
   "scripts": {
