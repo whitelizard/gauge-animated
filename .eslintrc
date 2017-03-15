@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "ecmascript": 7
+  },
+
+  "rules": {
+    "no-restricted-syntax": [0],
+  },
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
+}

@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/whitelizard/gauge-animated#readme",
   "dependencies": {
-    "velocitymodel": "^0.1.7"
+    "velocitymodel": "^0.2.0"
   }
 }
