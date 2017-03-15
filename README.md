@@ -5,7 +5,7 @@ A physically animated Gauge, using [velocitymodel](https://www.npmjs.com/package
 npm i -S gauge-animated
 ```
 
-Demo [here](http://codepen.io/whitelizard/pen/ggVoOR?editors=0010)
+**Demo [here](http://codepen.io/whitelizard/pen/ggVoOR?editors=0010)**
 
 The API is rather extensive and allows for a lot of customization to create very different looking gauges, as you can see in the demo. Look at the **bottom section of the JS code window in the demo** to find the configurations (API use) of all the examples.
 
