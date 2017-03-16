@@ -4,7 +4,7 @@
   "description": "A physically animated Gauge",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf ./lib/*",
+    "clean": "rimraf ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
     "build": "npm run clean && babel src -o index.js",
