@@ -153,6 +153,7 @@ function addScaleLabels(
     faceText,
     faceTextFontSize,
     faceTextFontFamily,
+    faceTextRadius = 0.4,
     lables,
     labelsLevel,
     labelRadius = 0.83,
@@ -160,7 +161,7 @@ function addScaleLabels(
     scaleLabelFontFamily,
     stopPinColor = '#666',
     valueDisplay,
-    valueDisplayRadius,
+    valueDisplayRadius = 0.5,
     valueDisplayFontSize,
     valueDisplayFontFamily,
   },
@@ -203,8 +204,8 @@ function addScaleLabels(
       <div class="gauge-face-text" style="${style}${toFontStyleStr(faceTextFontSize, faceTextFontFamily) || fontStr}">${faceText}</div>
     `,
     );
-    const r = center * 0.4;
-    label.style.top = `${center + r * -1}px`;
+    const r = center * faceTextRadius * -1;
+    label.style.top = `${center + r}px`;
     label.style.left = `${center}px`;
     element.appendChild(label);
   }
@@ -214,7 +215,7 @@ function addScaleLabels(
       <div class="gauge-value-display" style="${style}${toFontStyleStr(valueDisplayFontSize, valueDisplayFontFamily) || fontStr}">-</div>
     `,
     );
-    const r = center * (valueDisplayRadius || 0.5);
+    const r = center * valueDisplayRadius;
     label.style.top = `${center + r}px`;
     label.style.left = `${center}px`;
     element.appendChild(label);
