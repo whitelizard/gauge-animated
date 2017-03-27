@@ -127,6 +127,13 @@ function drawScale(
   ctx.restore();
 }
 
+function toFontStyleStr(size, family) {
+  let s = '';
+  if (size) s += `font-size:${size}px;`;
+  if (family) s += `font-family:${family} sans-serif;`;
+  return s;
+}
+
 function addScaleLabels(
   element,
   {
@@ -141,14 +148,21 @@ function addScaleLabels(
     labelDivider = 1,
     markerLength = 8,
     markerWidth = 1.5,
-    font,
+    fontSize,
+    fontFamily,
     faceText,
+    faceTextFontSize,
+    faceTextFontFamily,
     lables,
     labelsLevel,
     labelRadius = 0.83,
+    scaleLabelFontSize,
+    scaleLabelFontFamily,
     stopPinColor = '#666',
     valueDisplay,
     valueDisplayRadius,
+    valueDisplayFontSize,
+    valueDisplayFontFamily,
   },
 ) {
   const doublePi = 2 * Math.PI;
@@ -165,15 +179,15 @@ function addScaleLabels(
     width: 0;
     height: 0;
     white-space: nowrap;
-    ${font ? `font:${font};` : ''}
   `;
+  const fontStr = toFontStyleStr(fontSize, fontFamily);
   range(totalSteps + 1).forEach(i => {
     const sinA = Math.sin(a);
     const cosA = Math.cos(a);
     if (labelSteps && i % labelSteps === 0) {
       const label = stringToElement(
         `
-        <div class="gauge-scale-label" style="${style}">${((stepValue * i + min) / labelDivider).toFixed(decimals)}</div>
+        <div class="gauge-scale-label" style="${style}${toFontStyleStr(scaleLabelFontSize, scaleLabelFontFamily) || fontStr}">${((stepValue * i + min) / labelDivider).toFixed(decimals)}</div>
       `,
       );
       const r = center * labelRadius;
@@ -186,7 +200,7 @@ function addScaleLabels(
   if (faceText) {
     const label = stringToElement(
       `
-      <div class="gauge-face-text" style="${style}">${faceText}</div>
+      <div class="gauge-face-text" style="${style}${toFontStyleStr(faceTextFontSize, faceTextFontFamily) || fontStr}">${faceText}</div>
     `,
     );
     const r = center * 0.4;
@@ -197,7 +211,7 @@ function addScaleLabels(
   if (valueDisplay) {
     const label = stringToElement(
       `
-      <div class="gauge-value-display" style="${style}">-</div>
+      <div class="gauge-value-display" style="${style}${toFontStyleStr(valueDisplayFontSize, valueDisplayFontFamily) || fontStr}">-</div>
     `,
     );
     const r = center * (valueDisplayRadius || 0.5);
@@ -217,7 +231,28 @@ function buildGaugeFace(element, options) {
   return addScaleLabels(element, options);
 }
 
-export default class Gauge {
+function svgNeedle(size) {
+  const c = 250;
+  const scale = size / 500;
+  return stringToElement(
+    `
+    <svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="width:${size}px; height:${size}px;">
+      <g>
+        <g transform="scale(${scale})">
+          <circle cx="${c}" cy="${c}" r="15" style="fill:#000"/>
+          <path d="M ${c} ${c + 4.5} L ${c * 1.9} ${c} L ${c} ${c - 4.5} z" fill="#000" stroke="#111"/>
+          <path d="M ${c} ${c + 3} L ${c - 75} ${c + 3} L ${c - 75} ${c - 3} L ${c} ${c - 3} z" fill="#000" stroke="#111"/>
+          <circle cx="${c - 80}" cy="${c}" r="10" style="fill:#000"/>
+          <circle cx="${c - 80}" cy="${c}" r="5.5" style="fill:#fff"/>
+          <circle cx="${c}" cy="${c}" r="4" style="stroke:#999;fill:#ccc"/>
+        </g>
+      </g>
+    </svg>
+  `,
+  );
+}
+
+class Gauge {
   constructor(parent, options) {
     const {
       size = 500,
