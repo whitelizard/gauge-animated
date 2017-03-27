@@ -252,7 +252,7 @@ function svgNeedle(size) {
   );
 }
 
-class Gauge {
+export default class Gauge {
   constructor(parent, options) {
     const {
       size = 500,
