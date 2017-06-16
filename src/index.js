@@ -7,7 +7,7 @@ export const degToRad = degrees => degrees * radPerDeg;
 export const radToDeg = radians => radians * degPerRad;
 
 export function range(length) {
-  return Array.apply(null, { length }).map(Number.call, Number);
+  return Array(...{ length }).map(Number.call, Number);
 }
 
 export function stringToElement(str) {
@@ -316,7 +316,7 @@ export default class Gauge {
     if (this.valueCallback) this.valueCallback(value);
     if (this.valueDisplay) {
       let x = value;
-      if (value < this.min || value > this.max) x = target;
+      if (target < this.min || target > this.max) x = target;
       x = x.toFixed(this.valueDisplayDecimals);
       if (this.valueDisplayPostfix) x += this.valueDisplayPostfix;
       this.valueDisplay.innerHTML = x;
