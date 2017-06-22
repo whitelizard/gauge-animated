@@ -16,29 +16,6 @@ export function stringToElement(str) {
   return div.querySelector(':first-child');
 }
 
-export function svgNeedle(size) {
-  const c = 250;
-  const scale = size / 500;
-  return stringToElement(
-    `
-    <svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="width:${size}px; height:${size}px;">
-      <g>
-        <g transform="scale(${scale})">
-          <circle cx="${c}" cy="${c}" r="15" style="fill:#000"/>
-          <path d="M ${c} ${c + 4.5} L ${c * 1.9} ${c} L ${c} ${c -
-      4.5} z" fill="#000" stroke="#111"/>
-          <path d="M ${c} ${c + 3} L ${c - 75} ${c + 3} L ${c - 75} ${c - 3} L ${c} ${c -
-      3} z" fill="#000" stroke="#111"/>
-          <circle cx="${c - 80}" cy="${c}" r="10" style="fill:#000"/>
-          <circle cx="${c - 80}" cy="${c}" r="5.5" style="fill:#fff"/>
-          <circle cx="${c}" cy="${c}" r="4" style="stroke:#999;fill:#ccc"/>
-        </g>
-      </g>
-    </svg>
-  `,
-  );
-}
-
 function drawMarkerLine(ctx, cosA, sinA, center, length, lineWidth) {
   const minRadius = center - length;
   ctx.lineWidth = lineWidth;
@@ -48,9 +25,9 @@ function drawMarkerLine(ctx, cosA, sinA, center, length, lineWidth) {
   ctx.stroke();
 }
 
-function drawLabel(ctx, cosA, sinA, center, radius, text) {
-  ctx.fillText(text, center + radius * cosA, center + radius * sinA);
-}
+// function drawLabel(ctx, cosA, sinA, center, radius, text) {
+//   ctx.fillText(text, center + radius * cosA, center + radius * sinA);
+// }
 
 function drawScale(
   ctx,
@@ -63,7 +40,7 @@ function drawScale(
     stepValue = 1,
     mediumSteps = 5,
     largeSteps = 10,
-    labelSteps = 10,
+    // labelSteps = 10,
     markerLength = 8,
     markerWidth = 1.5,
     stopPinColor = '#666',
@@ -127,8 +104,8 @@ function addScaleLabels(
     labelSteps = 10,
     decimals = 0,
     labelDivider = 1,
-    markerLength = 8,
-    markerWidth = 1.5,
+    // markerLength = 8,
+    // markerWidth = 1.5,
     fontSize,
     fontFamily,
     faceText,
@@ -140,14 +117,14 @@ function addScaleLabels(
     labelRadius = 0.83,
     scaleLabelFontSize,
     scaleLabelFontFamily,
-    stopPinColor = '#666',
+    // stopPinColor = '#666',
     valueDisplay,
     valueDisplayRadius = 0.5,
     valueDisplayFontSize,
     valueDisplayFontFamily,
   },
 ) {
-  const doublePi = 2 * Math.PI;
+  // const doublePi = 2 * Math.PI;
   const totalSteps = (max - min) / stepValue;
   const center = size / 2;
   const angleDiff = stopAngle - startAngle;
@@ -222,7 +199,7 @@ function buildGaugeFace(element, options) {
   return addScaleLabels(element, options);
 }
 
-function svgNeedle(size) {
+export function svgNeedle(size) {
   const c = 250;
   const scale = size / 500;
   return stringToElement(
@@ -264,6 +241,7 @@ export default class Gauge {
       needleAngleMax = Math.PI * 2.493,
       needleSvg = svgNeedle,
       maxV,
+      unanimated = false,
     } = options;
     this.visual = this.visual.bind(this);
     this.parent = parent;
@@ -276,16 +254,19 @@ export default class Gauge {
     this.interval = max - min;
     this.anglePerStep = this.angleDiff / this.interval;
     this.stepPerAngle = this.interval / this.angleDiff;
-    this.model = new VelocityModel({
-      P,
-      I,
-      D,
-      min: this.angleToValue(needleAngleMin),
-      max: this.angleToValue(needleAngleMax),
-      start: startValue,
-      maxV,
-    });
-    this.anim = new ModelAnimator(this.model, this.visual);
+    this.unanimated = unanimated;
+    if (!unanimated) {
+      this.model = new VelocityModel({
+        P,
+        I,
+        D,
+        min: this.angleToValue(needleAngleMin),
+        max: this.angleToValue(needleAngleMax),
+        start: startValue,
+        maxV,
+      });
+      this.anim = new ModelAnimator(this.model, this.visual);
+    }
     this.valueDisplayDecimals = valueDisplayDecimals;
     this.valueDisplayPostfix = valueDisplayPostfix;
     this.valueDisplay = buildGaugeFace(parent, {
@@ -301,8 +282,8 @@ export default class Gauge {
     this.needle.style.top = 0;
     this.needle.style.left = 0;
     this.needleG = this.needle.querySelector('g');
-    parent.style.position = 'relative';
-    parent.appendChild(this.needle);
+    this.parent.style.position = 'relative';
+    this.parent.appendChild(this.needle);
     this.visual(startValue);
   }
   angleToValue(angle) {
@@ -325,6 +306,7 @@ export default class Gauge {
     this.needleG.setAttributeNS(null, 'transform', `rotate(${deg} ${this.center} ${this.center})`);
   }
   setTarget(value) {
-    this.anim.setTarget(value);
+    if (this.unanimated) this.visual(value);
+    else this.anim.setTarget(value);
   }
 }
