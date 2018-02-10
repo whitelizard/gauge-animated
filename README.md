@@ -1,11 +1,11 @@
-# cgauge
+# Complex Configurable Gauge
 
 A CSS3 animated gauge, with a rather complex & highly configurable gauge face.
 
 ### Install
 
 ```bash
-npm i -S cgauge
+npm i -S gauge-animated
 ```
 
 ### Demo

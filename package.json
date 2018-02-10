@@ -6,9 +6,7 @@
   "description": "Complex Configurable Gauge",
   "main": "index.js",
   "scripts": {
-    "test": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "serve": "preact build && preact serve",
-    "dev": "preact watch",
+    "test": "cd test; npm start",
     "build": "babel lib -o index.js",
     "lint": "eslint lib",
     "prepublish": "npm run build"
@@ -29,13 +27,6 @@
     "babel-preset-env": "^1.2.2",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "eslint": "^4.9.0",
-    "eslint-config-synacor": "^2.0.2",
-    "identity-obj-proxy": "^3.0.0",
-    "if-env": "^1.0.0",
-    "preact-cli": "^2.1.0",
-    "preact-render-spy": "^1.2.1",
-    "preact": "^8.2.6",
-    "preact-compat": "^3.17.0",
-    "preact-router": "^2.5.7"
+    "eslint-config-synacor": "^2.0.2"
   }
 }

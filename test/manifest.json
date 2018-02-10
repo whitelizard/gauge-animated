@@ -1,6 +1,6 @@
 {
-  "name": "gauge-animated",
-  "short_name": "gauge-animated",
+  "name": "test",
+  "short_name": "test",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
