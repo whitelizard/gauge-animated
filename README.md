@@ -1,6 +1,6 @@
 # Complex Configurable Gauge
 
-A CSS3 animated gauge, with a rather complex & highly configurable gauge face.
+A CSS3 animated gauge, with a rather complex & highly configurable gauge face (and SVG needle).
 
 ### Install
 
