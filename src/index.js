@@ -1,6 +1,7 @@
 // import VelocityModel from 'velocitymodel/lib/velocitymodel';
 // import ModelAnimator from 'velocitymodel/lib/modelanimator';
 import { buildGaugeFace, stringToElement } from './gaugeface.js';
+export { buildGaugeFace, stringToElement } from './gaugeface.js';
 
 const radPerDeg = Math.PI / 180;
 const degPerRad = 180 / Math.PI;
