@@ -7,16 +7,11 @@
   "main": "index.js",
   "scripts": {
     "test": "cd test; npm start",
-    "build": "babel lib -o index.js",
-    "lint": "eslint lib",
+    "build": "babel src -d lib",
+    "lint": "eslint src",
     "prepublish": "npm run build"
   },
-  "keywords": [
-    "gauge",
-    "animation",
-    "svg",
-    "canvas"
-  ],
+  "keywords": ["gauge", "animation", "svg", "canvas"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/whitelizard/gauge-animated.git"

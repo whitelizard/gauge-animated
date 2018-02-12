@@ -1,6 +1,7 @@
 // import style from './style';
 import { Component } from 'preact';
-import { createGauge } from '../lib';
+// import Gauge, { createGauge } from '../index';
+import { createGauge } from '../index';
 
 export default class App extends Component {
 	updateGauge = () => {
@@ -9,6 +10,8 @@ export default class App extends Component {
 		this.gauge.setTarget(value);
 	};
 	componentDidMount() {
+		// console.log(Gauge, createGauge);
+		// const testG = new Gauge(this.area, { size: 300 });
 		this.gauge = createGauge(this.area, { size: 300 });
 		// console.log(this.gauge);
 		setInterval(() => {
