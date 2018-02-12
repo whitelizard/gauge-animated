@@ -1,6 +1,6 @@
 {
   "name": "gauge-animated",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "author": "Esbjörn Blomquist",
   "description": "Complex Configurable Gauge",
@@ -11,7 +11,12 @@
     "lint": "eslint src",
     "prepublish": "npm run build"
   },
-  "keywords": ["gauge", "animation", "svg", "canvas"],
+  "keywords": [
+    "gauge",
+    "animation",
+    "svg",
+    "canvas"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/whitelizard/gauge-animated.git"
