@@ -8,6 +8,13 @@ A CSS3 animated gauge, with a rather complex & highly configurable gauge face (a
 npm i -S gauge-animated
 ```
 
+### Use
+
+```js
+import { createGauge } from 'gauge-animated/lib';
+createGauge(document.body, {...});
+```
+
 ### Demo
 
 **Demo [here](http://codepen.io/whitelizard/pen/zRwOaJ?editors=0010)**
