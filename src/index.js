@@ -1,7 +1,8 @@
 // import VelocityModel from 'velocitymodel/lib/velocitymodel';
 // import ModelAnimator from 'velocitymodel/lib/modelanimator';
-import { buildGaugeFace, stringToElement } from './gaugeface.js';
-export { buildGaugeFace, stringToElement } from './gaugeface.js';
+import { buildGaugeFace, stringToElement } from "./gaugeface";
+
+export { buildGaugeFace, stringToElement } from "./gaugeface";
 
 const radPerDeg = Math.PI / 180;
 const degPerRad = 180 / Math.PI;
@@ -46,7 +47,7 @@ export class Gauge {
       needleSvg = svgNeedle,
       // needleTransition = '.2s transform ease-out-quint'
       needleDuration = 0.3,
-      needleEasing = 'cubic-bezier(0.365, 1.285, 0.275, 1.000)'
+      needleEasing = "cubic-bezier(0.365, 1.285, 0.275, 1.000)"
       // needleEasing = 'cubic-bezier(0.170, 1.080, 0.415, 1.045)'
       // needleTransition = '2s transform cubic-bezier(0.170, 1.080, 0.415, 1.045)'
       // needleTransition = '.2s transform cubic-bezier(0.170, 1.080, 0.540, 1.025)'
@@ -76,27 +77,30 @@ export class Gauge {
     this.needleMinValue = this.angleToValue(needleAngleMin);
     this.needleMaxValue = this.angleToValue(needleAngleMax);
     this.needle = needleSvg(size);
-    this.needle.style.position = 'absolute';
+    this.needle.style.position = "absolute";
     this.needle.style.top = 0;
     this.needle.style.left = 0;
-    this.needleG = this.needle.querySelector('g');
+    this.needleG = this.needle.querySelector("g");
     this.needleG.style.transformOrigin = `${this.center}px ${this.center}px`;
     this.needleG.style.transition = `${needleDuration}s transform ${needleEasing}`;
     // '.2s all cubic-bezier(0.310, 0.440, 0.445, 1.650)';
     // 'transition: ;transform-origin: ${(size + c) / 4}px ${(size + c) / 4}px';
     // 'transition: .2s all ease-in-out;transform-origin: ${(size + c) / 4}px ${(size + c) / 4}px';
-    this.parent.style.position = 'relative';
+    this.parent.style.position = "relative";
     this.parent.appendChild(this.needle);
     this.setTarget(startValue);
   }
+
   angleToValue(angle) {
     return this.min + (angle - this.startAngle) * this.stepPerAngle;
   }
+
   valueToAngle(value) {
     return this.startAngle + (value - this.min) * this.anglePerStep;
   }
+
   setTarget(value, target) {
-    if (typeof value !== 'number') return;
+    if (typeof value !== "number") return;
     if (this.valueCallback) this.valueCallback(value);
     if (this.valueDisplay) {
       let x = value;
@@ -105,10 +109,12 @@ export class Gauge {
       if (this.valueDisplayPostfix) x += this.valueDisplayPostfix;
       this.valueDisplay.innerHTML = x;
     }
+    /* eslint-disable no-param-reassign */
     if (value < this.needleMinValue) value = this.needleMinValue;
     if (value > this.needleMaxValue) value = this.needleMaxValue;
+    /* eslint-enable no-param-reassign */
     const deg = radToDeg(this.valueToAngle(value));
-    this.needleG.setAttributeNS(null, 'transform', `rotate(${deg} 0 0)`);
+    this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
   }
 }
 

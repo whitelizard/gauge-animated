@@ -1,6 +1,6 @@
 test
+/src
 /node_modules
 .eslintrc
 .babelrc
 .editorconfig
-manifest.json

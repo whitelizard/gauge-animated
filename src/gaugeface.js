@@ -1,11 +1,12 @@
 export function range(length) {
-  return Array(...{ length }).map(Number.call, Number);
+  // return Array(...{ length }).map(Number.call, Number);
+  return [...Array(length)].map((_, i) => i);
 }
 
 export function stringToElement(str) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.innerHTML = str;
-  return div.querySelector(':first-child');
+  return div.querySelector(":first-child");
 }
 
 function drawMarkerLine(ctx, cosA, sinA, center, length, lineWidth) {
@@ -35,7 +36,7 @@ function drawScale(
     // labelSteps = 10,
     markerLength = 8,
     markerWidth = 1.5,
-    stopPinColor = '#666',
+    stopPinColor = "#666",
     markerColors,
     markerWidths,
     markerLengths
@@ -47,8 +48,8 @@ function drawScale(
   const center = size / 2;
   const angleDiff = stopAngle - startAngle;
   const da = angleDiff / totalSteps;
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
   let a = startAngle;
 
   range(totalSteps + 1).forEach(i => {
@@ -92,14 +93,14 @@ function drawScale(
   if (stopPinColor) {
     ctx.fillStyle = stopPinColor;
     ctx.beginPath();
-    ctx.arc(center, center * 1.82, 5 * size / 500, 0, doublePi, true);
+    ctx.arc(center, center * 1.82, (5 * size) / 500, 0, doublePi, true);
     ctx.fill();
   }
   ctx.restore();
 }
 
 function toFontStyleStr(size, family) {
-  let s = '';
+  let s = "";
   if (size) s += `font-size:${size}px;`;
   if (family) s += `font-family:${family} sans-serif;`;
   return s;
@@ -125,8 +126,8 @@ function addScaleLabels(
     faceTextFontSize,
     faceTextFontFamily,
     faceTextRadius = 0.4,
-    lables,
-    labelsLevel,
+    // lables,
+    // labelsLevel,
     labelRadius = 0.83,
     scaleLabelFontSize,
     scaleLabelFontFamily,
@@ -210,6 +211,6 @@ export function buildGaugeFace(element, options) {
   const { size } = options;
   const canvas = stringToElement(`<canvas width="${size}" height="${size}"/>`);
   element.appendChild(canvas);
-  drawScale(canvas.getContext('2d'), options);
+  drawScale(canvas.getContext("2d"), options);
   return addScaleLabels(element, options);
 }
