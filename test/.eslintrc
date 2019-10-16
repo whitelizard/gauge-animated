@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier"],
+  "globals": { "document": "readonly" },
+  "rules": {
+    "no-restricted-syntax": [0],
+    "no-mixed-operators": [0],
+    "no-underscore-dangle": [0],
+    "arrow-parens": [2, "as-needed"],
+    "indent": ["error", 2],
+    "comma-dangle": [0],
+    "brace-style": [0]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
+}

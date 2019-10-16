@@ -1,6 +1,6 @@
 export function range(length) {
   // return Array(...{ length }).map(Number.call, Number);
-  return [...Array(length)].map((_, i) => i);
+  return [...Array(Math.round(length))].map((_, i) => i);
 }
 
 export function stringToElement(str) {
