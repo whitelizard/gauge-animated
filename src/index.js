@@ -50,7 +50,7 @@ export class Gauge {
       keepIndicatorsOnNullish,
       min = 0,
       max = 100,
-      startValue = 0,
+      startValue,
       needleAngleMin = Math.PI * 0.507,
       needleAngleMax = Math.PI * 2.493,
       needleSvg = svgNeedle,
