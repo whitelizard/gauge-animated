@@ -92,6 +92,10 @@ export class Gauge {
     this.needle.style.top = 0;
     this.needle.style.left = 0;
     this.needleG = this.needle.querySelector("g");
+    if (!this.keepIndicatorsOnNullish) {
+      if (this.valueDisplay) this.valueDisplay.innerHTML = "";
+      this.needleG.style.display = "none";
+    }
     this.needleG.style.transformOrigin = `${this.center}px ${this.center}px`;
     this.needleG.style.transition = `${needleDuration}s transform ${needleEasing}`;
     // '.2s all cubic-bezier(0.310, 0.440, 0.445, 1.650)';
