@@ -31,7 +31,12 @@ export function svgNeedle(size) {
 }
 
 const clamp = (min, max) => val => (val < min ? min : val > max ? max : val);
-const tryAsNumber = val => Number(Array.isArray(val) ? val[0] : val);
+const tryAsNumber = val => {
+  const unpacked = Array.isArray(val) ? val[0] : val;
+  const asNum = Number(unpacked);
+  const notNumber = unpacked === undefined || unpacked === null || Number.isNaN(asNum);
+  return [notNumber, notNumber ? unpacked : asNum];
+};
 
 export class Gauge {
   constructor(parent, options) {
@@ -42,6 +47,7 @@ export class Gauge {
       valueCallback,
       valueDisplayDecimals = 0,
       valueDisplayPostfix,
+      keepIndicatorsOnNullish,
       min = 0,
       max = 100,
       startValue = 0,
@@ -69,6 +75,7 @@ export class Gauge {
     this.stepPerAngle = this.interval / this.angleDiff;
     this.valueDisplayDecimals = valueDisplayDecimals;
     this.valueDisplayPostfix = valueDisplayPostfix;
+    this.keepIndicatorsOnNullish = keepIndicatorsOnNullish;
     this.valueDisplay = buildGaugeFace(parent, {
       ...options,
       size,
@@ -104,23 +111,26 @@ export class Gauge {
   }
 
   setTarget(value) {
-    const nil = value === undefined || value === null;
-    const val = tryAsNumber(value);
-    if (nil || Number.isNaN(val)) {
-      if (this.valueDisplay && typeof value === "string") {
-        this.valueDisplay.innerHTML = value;
-        if (this.valueCallback) this.valueCallback(value);
+    const [notNumber, val] = tryAsNumber(value);
+    if (notNumber) {
+      if (!this.keepIndicatorsOnNullish) {
+        if (this.valueDisplay) this.valueDisplay.innerHTML = "";
+        this.needleG.style.display = "none";
       }
-    } else {
-      const clampedNumber = this.clampValue(val);
-      const deg = radToDeg(this.valueToAngle(clampedNumber));
-      this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
-      if (this.valueDisplay)
-        this.valueDisplay.innerHTML = `${val.toFixed(this.valueDisplayDecimals)}${
-          this.valueDisplayPostfix
-        }`;
-      if (this.valueCallback) this.valueCallback(val);
+      if (this.valueDisplay && typeof val === "string") {
+        this.valueDisplay.innerHTML = val;
+        if (this.valueCallback) this.valueCallback(val);
+      }
+      return;
     }
+    const deg = radToDeg(this.valueToAngle(this.clampValue(val)));
+    if (this.needleG.style.display === "none") this.needleG.style.display = "";
+    this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
+    if (this.valueDisplay)
+      this.valueDisplay.innerHTML = `${val.toFixed(this.valueDisplayDecimals)}${
+        this.valueDisplayPostfix ? this.valueDisplayPostfix : ""
+      }`;
+    if (this.valueCallback) this.valueCallback(val);
   }
 }
 

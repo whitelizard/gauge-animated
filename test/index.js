@@ -9,7 +9,7 @@ export default class App extends Component {
     const interval = rMax - rMin;
     const value = Math.random() * interval + rMin;
     // console.log('Setting:', value);
-    gauge.setTarget(value);
+    gauge.setTarget(value < 0.2 * interval + rMin ? null : value);
   };
 
   componentDidMount() {
