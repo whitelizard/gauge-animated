@@ -31,6 +31,7 @@ export function svgNeedle(size) {
 }
 
 const clamp = (min, max) => val => (val < min ? min : val > max ? max : val);
+const tryAsNumber = val => Number(Array.isArray(val) ? val[0] : val);
 
 export class Gauge {
   constructor(parent, options) {
@@ -103,8 +104,14 @@ export class Gauge {
   }
 
   setTarget(value) {
-    const val = Number(Array.isArray(value) ? value[0] : value);
-    if (!Number.isNaN(val)) {
+    const nil = value === undefined || value === null;
+    const val = tryAsNumber(value);
+    if (nil || Number.isNaN(val)) {
+      if (this.valueDisplay && typeof value === "string") {
+        this.valueDisplay.innerHTML = value;
+        if (this.valueCallback) this.valueCallback(value);
+      }
+    } else {
       const clampedNumber = this.clampValue(val);
       const deg = radToDeg(this.valueToAngle(clampedNumber));
       this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
@@ -113,9 +120,6 @@ export class Gauge {
           this.valueDisplayPostfix
         }`;
       if (this.valueCallback) this.valueCallback(val);
-    } else if (this.valueDisplay && typeof value === "string") {
-      this.valueDisplay.innerHTML = value;
-      if (this.valueCallback) this.valueCallback(value);
     }
   }
 }
