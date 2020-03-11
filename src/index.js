@@ -19,8 +19,8 @@ export function svgNeedle(size) {
           <circle cx="${c}" cy="${c}" r="15" style="fill:#000"/>
           <path d="M ${c} ${c + 4.5} L ${c * 1.9} ${c} L ${c} ${c -
       4.5} z" fill="#000" stroke="#111"/>
-          <path d="M ${c} ${c + 3} L ${c - 75} ${c + 3} L ${c - 75} ${c -
-      3} L ${c} ${c - 3} z" fill="#000" stroke="#111"/>
+          <path d="M ${c} ${c + 3} L ${c - 75} ${c + 3} L ${c - 75} ${c - 3} L ${c} ${c -
+      3} z" fill="#000" stroke="#111"/>
           <circle cx="${c - 80}" cy="${c}" r="10" style="fill:#000"/>
           <circle cx="${c - 80}" cy="${c}" r="5.5" style="fill:#fff"/>
           <circle cx="${c}" cy="${c}" r="4" style="stroke:#999;fill:#ccc"/>
@@ -29,6 +29,8 @@ export function svgNeedle(size) {
     </svg>`
   );
 }
+
+const clamp = (min, max) => val => (val < min ? min : val > max ? max : val);
 
 export class Gauge {
   constructor(parent, options) {
@@ -76,6 +78,7 @@ export class Gauge {
     });
     this.needleMinValue = this.angleToValue(needleAngleMin);
     this.needleMaxValue = this.angleToValue(needleAngleMax);
+    this.clampValue = clamp(this.needleMinValue, this.needleMaxValue);
     this.needle = needleSvg(size);
     this.needle.style.position = "absolute";
     this.needle.style.top = 0;
@@ -99,22 +102,21 @@ export class Gauge {
     return this.startAngle + (value - this.min) * this.anglePerStep;
   }
 
-  setTarget(value, target) {
-    if (typeof value !== "number") return;
-    if (this.valueCallback) this.valueCallback(value);
-    if (this.valueDisplay) {
-      let x = value;
-      if (target < this.min || target > this.max) x = target;
-      x = x.toFixed(this.valueDisplayDecimals);
-      if (this.valueDisplayPostfix) x += this.valueDisplayPostfix;
-      this.valueDisplay.innerHTML = x;
+  setTarget(value) {
+    const val = Number(Array.isArray(value) ? value[0] : value);
+    if (!Number.isNaN(val)) {
+      const clampedNumber = this.clampValue(val);
+      const deg = radToDeg(this.valueToAngle(clampedNumber));
+      this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
+      if (this.valueDisplay)
+        this.valueDisplay.innerHTML = `${val.toFixed(this.valueDisplayDecimals)}${
+          this.valueDisplayPostfix
+        }`;
+      if (this.valueCallback) this.valueCallback(val);
+    } else if (this.valueDisplay && typeof value === "string") {
+      this.valueDisplay.innerHTML = value;
+      if (this.valueCallback) this.valueCallback(value);
     }
-    /* eslint-disable no-param-reassign */
-    if (value < this.needleMinValue) value = this.needleMinValue;
-    if (value > this.needleMaxValue) value = this.needleMaxValue;
-    /* eslint-enable no-param-reassign */
-    const deg = radToDeg(this.valueToAngle(value));
-    this.needleG.setAttributeNS(null, "transform", `rotate(${deg} 0 0)`);
   }
 }
 

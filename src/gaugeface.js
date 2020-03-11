@@ -61,32 +61,11 @@ function drawScale(
     let mL;
     if (markerLengths) mL = markerLengths(i);
     if (largeSteps && i % largeSteps === 0) {
-      drawMarkerLine(
-        ctx,
-        cosA,
-        sinA,
-        center,
-        mL || markerLength * 1.6,
-        mW || markerWidth * 1.75
-      );
+      drawMarkerLine(ctx, cosA, sinA, center, mL || markerLength * 1.6, mW || markerWidth * 1.75);
     } else if (mediumSteps && i % mediumSteps === 0) {
-      drawMarkerLine(
-        ctx,
-        cosA,
-        sinA,
-        center,
-        mL || markerLength * 1.3,
-        mW || markerWidth * 1.4
-      );
+      drawMarkerLine(ctx, cosA, sinA, center, mL || markerLength * 1.3, mW || markerWidth * 1.4);
     } else {
-      drawMarkerLine(
-        ctx,
-        cosA,
-        sinA,
-        center,
-        mL || markerLength,
-        mW || markerWidth
-      );
+      drawMarkerLine(ctx, cosA, sinA, center, mL || markerLength, mW || markerWidth);
     }
     a += da;
   });
@@ -161,11 +140,9 @@ function addScaleLabels(
       const label = stringToElement(
         `
         <div class="gauge-scale-label" style="${style}${toFontStyleStr(
-  scaleLabelFontSize,
-  scaleLabelFontFamily
-) || fontStr}">${((stepValue * i + min) / labelDivider).toFixed(
-  decimals
-)}</div>
+          scaleLabelFontSize,
+          scaleLabelFontFamily
+        ) || fontStr}">${((stepValue * i + min) / labelDivider).toFixed(decimals)}</div>
       `
       );
       const r = center * labelRadius;
@@ -179,9 +156,9 @@ function addScaleLabels(
     const label = stringToElement(
       `
       <div class="gauge-face-text" style="${style}${toFontStyleStr(
-  faceTextFontSize,
-  faceTextFontFamily
-) || fontStr}">${faceText}</div>
+        faceTextFontSize,
+        faceTextFontFamily
+      ) || fontStr}">${faceText}</div>
     `
     );
     const r = center * faceTextRadius * -1;
@@ -193,9 +170,9 @@ function addScaleLabels(
     const label = stringToElement(
       `
       <div class="gauge-value-display" style="${style}${toFontStyleStr(
-  valueDisplayFontSize,
-  valueDisplayFontFamily
-) || fontStr}">-</div>
+        valueDisplayFontSize,
+        valueDisplayFontFamily
+      ) || fontStr}">-</div>
     `
     );
     const r = center * valueDisplayRadius;

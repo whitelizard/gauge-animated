@@ -1,0 +1,23 @@
+{
+  "extends": ["airbnb-base", "prettier", "prettier/react"],
+  "plugins": ["prettier"],
+  "env": {
+    "browser": true
+  },
+  "globals": { "document": "readonly" },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-mixed-operators": [0],
+    "arrow-parens": [2, "as-needed"],
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": ["error", { "allow": ["__"] }],
+    "no-return-assign": ["error", "except-parens"],
+    "no-nested-ternary": [0],
+    "react/jsx-filename-extension": [0]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
+}
