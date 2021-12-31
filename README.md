@@ -24,3 +24,7 @@ The API is rather extensive and allows for a lot of customization to create very
 ### Details
 
 The face of the gauge (the scale) is drawn in a `<canvas>`, the text lables are just `<div>`'s (that you can style), and the needle is `<svg>` (which you can override through your own function).
+
+# Licence
+
+Hippocratic License Version 2.1
